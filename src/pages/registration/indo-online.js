@@ -62,7 +62,7 @@ function IndonesiaOnline() {
     }
   }, [router]);
 
-  const scriptURL = "";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzMLJVJB9YjXGAnIw3EZ8CBT1kaVW-yEhS1RAkzaqLSq5Mgw2MNltEOUI4LlMcbBGkH2Q/exec";
 
   useEffect(() => {
     const form = document.forms["regist-form"];
@@ -240,7 +240,7 @@ function IndonesiaOnline() {
                     onChange={handleCategoryChange}
                     required
                   >
-                    {/* <option value="">--Pilih Kategori Kompetisi--</option> */}
+                    <option value="">--Pilih Kategori Kompetisi--</option>
                     <option value="National Youth Invention and Innovation Award - Online Competition">
                       Online Competition
                     </option>
