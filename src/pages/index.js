@@ -55,24 +55,32 @@ export default function Home() {
             <a
               className="btn btn-action text-center me-lg-5 "
               onClick={() =>
+                // handleOpenModal(
+                //   "/registration/indo-online",
+                //   indonesiaOnlineTerms
+                // )
                 handleOpenModal(
-                  "/registration/indo-online",
+                  "",
                   indonesiaOnlineTerms
                 )
               }
             >
-              Kompetisi Online <i className="fa-solid fa-earth-americas"></i>
+              Tutup Pendaftaran<i className="fa-solid fa-earth-americas"></i>
             </a>
             <a
               className="btn btn-action text-center me-lg-5 "
               onClick={() =>
+                // handleOpenModal(
+                //   "/registration/indo-offline",
+                //   indonesiaOfflineTerms
+                // )
                 handleOpenModal(
-                  "/registration/indo-offline",
+                  "",
                   indonesiaOfflineTerms
                 )
               }
             >
-              Kompetisi Offline <i className="fa-solid fa-earth-americas"></i>
+              Tutup Pendaftaran<i className="fa-solid fa-earth-americas"></i>
             </a>
             <br />
             <br />
