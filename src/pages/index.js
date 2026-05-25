@@ -47,7 +47,7 @@ export default function Home() {
                 FORMULIR REGISTRASI
               </h1>
               <h3 className="mx-auto mt-5 mb-2 text-sm md:text-lg lg:text-2xl">
-                Pilih Kategori Kompetisi untuk Registrasi NYIIA 2025
+                Pilih Kategori Kompetisi untuk Registrasi NYIIA 2026
               </h3>
             </div>
           </div>
@@ -55,32 +55,32 @@ export default function Home() {
             <a
               className="btn btn-action text-center me-lg-5 "
               onClick={() =>
-                // handleOpenModal(
-                //   "/registration/indo-online",
-                //   indonesiaOnlineTerms
-                // )
                 handleOpenModal(
-                  "",
+                  "/registration/indo-online",
                   indonesiaOnlineTerms
                 )
+                // handleOpenModal(
+                //   "",
+                //   indonesiaOnlineTerms
+                // )
               }
             >
-              Tutup Pendaftaran<i className="fa-solid fa-earth-americas"></i>
+              Online Competition<i className="fa-solid fa-earth-americas"></i>
             </a>
             <a
               className="btn btn-action text-center me-lg-5 "
               onClick={() =>
-                // handleOpenModal(
-                //   "/registration/indo-offline",
-                //   indonesiaOfflineTerms
-                // )
                 handleOpenModal(
-                  "",
+                  "/registration/indo-offline",
                   indonesiaOfflineTerms
                 )
+                // handleOpenModal(
+                //   "",
+                //   indonesiaOfflineTerms
+                // )
               }
             >
-              Tutup Pendaftaran<i className="fa-solid fa-earth-americas"></i>
+              Offline Competition <i className="fa-solid fa-earth-americas"></i>
             </a>
             <br />
             <br />

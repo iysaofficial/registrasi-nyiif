@@ -47,7 +47,7 @@ function IndonesiaOnline() {
     // Logika untuk menentukan harga berdasarkan kategori yang dipilih
     switch (value) {
       case "National Youth Invention and Innovation Award - Online Competition":
-        setCategoryPrice("RP 900.000");
+        setCategoryPrice("RP 1.150.000");
         break;
       default:
         break;
@@ -153,7 +153,7 @@ function IndonesiaOnline() {
             <br />
             <br />
             <h4>
-              HALLO PESERTA NYIIA 2025, Mohon perhatikan informasi berikut ini
+              HALLO PESERTA NYIIA 2026, Mohon perhatikan informasi berikut ini
               sebelum mengisi formulir pendaftaran :
             </h4>
             <br />
@@ -645,7 +645,7 @@ function IndonesiaOnline() {
                 </div>
                 <div className="input-box">
                   <label for="INFORMATION_RESOURCES" className="form-label">
-                    Sumber Informasi Kompetisi NYIIA 2025
+                    Sumber Informasi Kompetisi NYIIA 2026
                   </label>
                   <select
                     type="text"
@@ -690,7 +690,7 @@ function IndonesiaOnline() {
               {/* GENERAL INFORMATION END */}
 
               <div className="button">
-                <input type="submit" value="TUTUP" />
+                <input type="submit" value="Daftar" />
               </div>
             </form>
 
