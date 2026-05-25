@@ -61,7 +61,7 @@ function IndonesiaOffline() {
     }
   }, [router]);
 
-  const scriptURL = "";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzT4QYH1bhqXU9F04zwzUxp8Ao0AQTAKdN2Puw-3nhDs7yrpWiN6g1sxV-iwlBfNMUh/exec";
 
   useEffect(() => {
     const form = document.forms["regist-form"];
