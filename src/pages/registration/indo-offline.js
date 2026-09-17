@@ -45,7 +45,7 @@ function IndonesiaOffline() {
 
     // Logika untuk menentukan harga berdasarkan kategori yang dipilih
     switch (value) {
-      case "National Youth Invention and Innovation Award - Offline Competition":
+      case "National Youth Invention and Innovation Award - Kompetisi Luring":
         break;
       default:
         break;
@@ -237,8 +237,8 @@ function IndonesiaOffline() {
                     required
                   >
                     <option value="">--Pilih Kategori Kompetisi--</option>
-                    <option value="National Youth Invention and Innovation Award - Offline Competition">
-                      Offline Competition
+                    <option value="National Youth Invention and Innovation Award - Kompetisi Luring">
+                      Kompetisi Luring
                     </option>
                   </select>
                 </div>
@@ -671,7 +671,7 @@ function IndonesiaOffline() {
               {/* GENERAL INFORMATION END */}
 
               <div className="button">
-                <input type="submit" value="TUTUP" />
+                <input type="submit" value="KIRIM" />
               </div>
             </form>
             {/* Loader dan Status Message */}

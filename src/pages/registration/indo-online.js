@@ -46,7 +46,7 @@ function IndonesiaOnline() {
 
     // Logika untuk menentukan harga berdasarkan kategori yang dipilih
     switch (value) {
-      case "National Youth Invention and Innovation Award - Online Competition":
+      case "National Youth Invention and Innovation Award - Kompetisi Daring":
         setCategoryPrice("RP 1.150.000");
         break;
       default:
@@ -241,8 +241,8 @@ function IndonesiaOnline() {
                     required
                   >
                     <option value="">--Pilih Kategori Kompetisi--</option>
-                    <option value="National Youth Invention and Innovation Award - Online Competition">
-                      Online Competition
+                    <option value="National Youth Invention and Innovation Award - Kompetisi Daring">
+                      Kompetisi Daring
                     </option>
                   </select>
                 </div>
@@ -690,7 +690,7 @@ function IndonesiaOnline() {
               {/* GENERAL INFORMATION END */}
 
               <div className="button">
-                <input type="submit" value="Daftar" />
+                <input type="submit" value="KIRIM" />
               </div>
             </form>
 

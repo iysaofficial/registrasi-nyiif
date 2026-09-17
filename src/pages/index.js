@@ -65,7 +65,7 @@ export default function Home() {
                 // )
               }
             >
-              Online Competition<i className="fa-solid fa-earth-americas"></i>
+              Kompetisi Daring<i className="fa-solid fa-earth-americas"></i>
             </a>
             <a
               className="btn btn-action text-center me-lg-5 "
@@ -80,7 +80,7 @@ export default function Home() {
                 // )
               }
             >
-              Offline Competition <i className="fa-solid fa-earth-americas"></i>
+              Kompetisi Luring <i className="fa-solid fa-earth-americas"></i>
             </a>
             <br />
             <br />
