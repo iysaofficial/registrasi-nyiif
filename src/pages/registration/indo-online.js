@@ -1,7 +1,7 @@
 "use client";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 
 function IndonesiaOnline() {
   const [selectedMaxNamaLengkap, setselectedMaxNamaLengkap] = useState("");
@@ -17,6 +17,7 @@ function IndonesiaOnline() {
   const [showModal, setShowModal] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [canClick, setCanClick] = useState(false);
+  const countdownIntervalRef = useRef(null);
   const router = useRouter();
 
   const handleInputNameChange = (e) => {
@@ -58,7 +59,7 @@ function IndonesiaOnline() {
     const termsAccepted = sessionStorage.getItem("termsAccepted");
     if (!termsAccepted) {
       alert("Anda harus menyetujui Syarat & Ketentuan terlebih dahulu.");
-      router("/registration/homeindo"); // Navigasi ke halaman HomeIndo
+      router.push("/"); // Navigasi ke halaman utama
     }
   }, [router]);
 
@@ -68,19 +69,24 @@ function IndonesiaOnline() {
     const form = document.forms["regist-form"];
 
     if (form) {
-      const handleSubmit = async (e) => {
+      const handleSubmit = (e) => {
         e.preventDefault();
+        if (isLoading) return;
         setShowModal(true);
         setCanClick(false);
         setCountdown(5); // Set ulang countdown saat modal muncul
 
+        if (countdownIntervalRef.current) {
+          clearInterval(countdownIntervalRef.current);
+        }
+
         let count = 5;
-        const interval = setInterval(() => {
+        countdownIntervalRef.current = setInterval(() => {
           count -= 1;
           setCountdown(count);
 
           if (count <= 1) {
-            clearInterval(interval); // Hentikan countdown di angka 1
+            clearInterval(countdownIntervalRef.current);
             setCanClick(true);
           }
         }, 1000);
@@ -91,50 +97,52 @@ function IndonesiaOnline() {
         form.removeEventListener("submit", handleSubmit);
       };
     }
+  }, [isLoading]);
+
+  useEffect(() => {
+    return () => {
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+      }
+    };
   }, []);
 
   const handleConfirmSubmit = async () => {
+    if (isLoading) return;
     setShowModal(false); // Tutup modal
     const form = document.forms["regist-form"];
 
     if (!form) return;
 
     setIsLoading(true);
+    setStatusMessage("Sedang mengirim data pendaftaran...");
+
+    const queryData = {
+      namaLengkap: selectedMaxNamaLengkap,
+      projectTitle: selectedMaxProject,
+      category: selectedCategory,
+      namasekolah: selectedNamaSekolah,
+    };
+
     try {
-      const response = await fetch(scriptURL, {
+      await fetch(scriptURL, {
         method: "POST",
         body: new FormData(form),
+        mode: "no-cors",
       });
 
-      if (response.ok) {
-        setStatusMessage("Data berhasil dikirim!");
+      setStatusMessage("Data berhasil dikirim! Mengalihkan...");
+      form.reset();
 
-        // Ambil data sebelum reset
-        const formData = {
-          namaLengkap: selectedMaxNamaLengkap,
-          projectTitle: selectedMaxProject,
-          category: selectedCategory,
-          categoryPrice: categoryPrice,
-          namasekolah: selectedNamaSekolah,
-        };
-
-        form.reset();
-        setTimeout(() => {
-          router.push(
-            `/registration/thankyouindo?namaLengkap=${encodeURIComponent(
-              selectedMaxNamaLengkap
-            )}
-            &projectTitle=${encodeURIComponent(selectedMaxProject)}
-            &category=${encodeURIComponent(selectedCategory)}
-            &namasekolah=${encodeURIComponent(selectedNamaSekolah)}`
-          );
-        }, 1000);
-      } else {
-        setStatusMessage("Terjadi kesalahan saat mengirim data.");
-      }
+      setTimeout(() => {
+        router.push({
+          pathname: "/registration/thankyouindo",
+          query: queryData,
+        });
+      }, 800);
     } catch (error) {
-      setStatusMessage("Terjadi kesalahan saat mengirim data.");
-    } finally {
+      console.error("Gagal mengirim data:", error);
+      setStatusMessage("Terjadi kesalahan saat mengirim data. Silakan coba lagi.");
       setIsLoading(false);
     }
   };
@@ -690,7 +698,11 @@ function IndonesiaOnline() {
               {/* GENERAL INFORMATION END */}
 
               <div className="button">
-                <input type="submit" value="KIRIM" />
+                <input
+                  type="submit"
+                  value={isLoading ? "MENGIRIM..." : "KIRIM"}
+                  disabled={isLoading}
+                />
               </div>
             </form>
 
@@ -698,11 +710,9 @@ function IndonesiaOnline() {
             {isLoading && (
               <div className="overlay-loader">
                 <div className="loader"></div>
-                <div>
-                  {statusMessage && (
-                    <p className="status-message">{statusMessage}</p>
-                  )}
-                </div>
+                {statusMessage && (
+                  <p className="status-message">{statusMessage}</p>
+                )}
               </div>
             )}
           </div>

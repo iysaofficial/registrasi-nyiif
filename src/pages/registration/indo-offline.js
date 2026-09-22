@@ -1,7 +1,7 @@
 "use client";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 
 function IndonesiaOffline() {
   const [selectedMaxNamaLengkap, setselectedMaxNamaLengkap] = useState("");
@@ -11,12 +11,14 @@ function IndonesiaOffline() {
   const maxSchoolChars = 500; // batasan maksimal karakter
   const maxProjectChars = 160; // batasan maksimal karakter
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [categoryPrice, setCategoryPrice] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [canClick, setCanClick] = useState(false);
-  const router = useRouter(); // Gunakan useRouter
+  const countdownIntervalRef = useRef(null);
+  const router = useRouter();
 
   const handleInputNameChange = (e) => {
     const { value } = e.target;
@@ -46,8 +48,10 @@ function IndonesiaOffline() {
     // Logika untuk menentukan harga berdasarkan kategori yang dipilih
     switch (value) {
       case "National Youth Invention and Innovation Award - Kompetisi Luring":
+        setCategoryPrice("RP 3.150.000");
         break;
       default:
+        setCategoryPrice("");
         break;
     }
   };
@@ -57,7 +61,7 @@ function IndonesiaOffline() {
 
     if (!termsAccepted) {
       alert("Anda harus menyetujui Syarat & Ketentuan terlebih dahulu.");
-      router("/registration/homeindo"); // Navigasi ke halaman HomeIndo
+      router.push("/"); // Navigasi ke halaman utama
     }
   }, [router]);
 
@@ -67,19 +71,24 @@ function IndonesiaOffline() {
     const form = document.forms["regist-form"];
 
     if (form) {
-      const handleSubmit = async (e) => {
+      const handleSubmit = (e) => {
         e.preventDefault();
+        if (isLoading) return;
         setShowModal(true);
         setCanClick(false);
         setCountdown(5); // Set ulang countdown saat modal muncul
 
+        if (countdownIntervalRef.current) {
+          clearInterval(countdownIntervalRef.current);
+        }
+
         let count = 5;
-        const interval = setInterval(() => {
+        countdownIntervalRef.current = setInterval(() => {
           count -= 1;
           setCountdown(count);
 
           if (count <= 1) {
-            clearInterval(interval); // Hentikan countdown di angka 1
+            clearInterval(countdownIntervalRef.current);
             setCanClick(true);
           }
         }, 1000);
@@ -90,48 +99,52 @@ function IndonesiaOffline() {
         form.removeEventListener("submit", handleSubmit);
       };
     }
+  }, [isLoading]);
+
+  useEffect(() => {
+    return () => {
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+      }
+    };
   }, []);
+
   const handleConfirmSubmit = async () => {
+    if (isLoading) return;
     setShowModal(false); // Tutup modal
     const form = document.forms["regist-form"];
 
     if (!form) return;
 
     setIsLoading(true);
+    setStatusMessage("Sedang mengirim data pendaftaran...");
+
+    const queryData = {
+      namaLengkap: selectedMaxNamaLengkap,
+      projectTitle: selectedMaxProject,
+      category: selectedCategory,
+      namasekolah: selectedNamaSekolah,
+    };
+
     try {
-      const response = await fetch(scriptURL, {
+      await fetch(scriptURL, {
         method: "POST",
         body: new FormData(form),
+        mode: "no-cors",
       });
 
-      if (response.ok) {
-        setStatusMessage("Data berhasil dikirim!");
+      setStatusMessage("Data berhasil dikirim! Mengalihkan...");
+      form.reset();
 
-        // Ambil data sebelum reset
-        const formData = {
-          namaLengkap: selectedMaxNamaLengkap,
-          projectTitle: selectedMaxProject,
-          category: selectedCategory,
-          namasekolah: selectedNamaSekolah,
-        };
-
-        form.reset();
-        setTimeout(() => {
-          router.push(
-            `/registration/thankyouindo?namaLengkap=${encodeURIComponent(
-              selectedMaxNamaLengkap
-            )}
-            &projectTitle=${encodeURIComponent(selectedMaxProject)}
-            &category=${encodeURIComponent(selectedCategory)}
-            &namasekolah=${encodeURIComponent(selectedNamaSekolah)}`
-          );
-        }, 1000);
-      } else {
-        setStatusMessage("Terjadi kesalahan saat mengirim data.");
-      }
+      setTimeout(() => {
+        router.push({
+          pathname: "/registration/thankyouindo",
+          query: queryData,
+        });
+      }, 800);
     } catch (error) {
-      setStatusMessage("Terjadi kesalahan saat mengirim data.");
-    } finally {
+      console.error("Gagal mengirim data:", error);
+      setStatusMessage("Terjadi kesalahan saat mengirim data. Silakan coba lagi.");
       setIsLoading(false);
     }
   };
@@ -592,6 +605,21 @@ function IndonesiaOffline() {
                   ></textarea>
                   <div className="mt-5" id="form_alerts"></div>
                 </div>
+                {/* Kolom Harga */}
+                <div className="input-box invisible">
+                  <label htmlFor="CATEGORY_PRICE" className="form-label ">
+                    Harga Pendaftaran
+                  </label>
+                  <input
+                    type="text"
+                    id="CATEGORY_PRICE"
+                    name="CATEGORY_PRICE"
+                    className="form-control"
+                    value={categoryPrice}
+                    readOnly
+                    placeholder="Harga akan muncul berdasarkan kategori yang dipilih"
+                  />
+                </div>
               </div>
               {/* DETAIL PROJECT END */}
               {/* DETAIL PROJECT END */}
@@ -671,18 +699,20 @@ function IndonesiaOffline() {
               {/* GENERAL INFORMATION END */}
 
               <div className="button">
-                <input type="submit" value="KIRIM" />
+                <input
+                  type="submit"
+                  value={isLoading ? "MENGIRIM..." : "KIRIM"}
+                  disabled={isLoading}
+                />
               </div>
             </form>
             {/* Loader dan Status Message */}
             {isLoading && (
               <div className="overlay-loader">
                 <div className="loader"></div>
-                <div>
-                  {statusMessage && (
-                    <p className="status-message">{statusMessage}</p>
-                  )}
-                </div>
+                {statusMessage && (
+                  <p className="status-message">{statusMessage}</p>
+                )}
               </div>
             )}
           </div>

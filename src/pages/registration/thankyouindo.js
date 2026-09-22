@@ -1,14 +1,19 @@
 "use client";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 function ThankYouIndo() {
-  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { namaLengkap, projectTitle, category, namasekolah } = router.query;
 
-  const namaLengkap = searchParams.get("namaLengkap") || "Tidak ada data";
-  const projectTitle = searchParams.get("projectTitle") || "Tidak ada data";
-  const category = searchParams.get("category") || "Tidak ada data";
-  const namasekolah = searchParams.get("namasekolah") || "Tidak ada data";
+  const displayNamaLengkap =
+    (typeof namaLengkap === "string" && namaLengkap.trim()) || "Tidak ada data";
+  const displayProjectTitle =
+    (typeof projectTitle === "string" && projectTitle.trim()) || "Tidak ada data";
+  const displayCategory =
+    (typeof category === "string" && category.trim()) || "Tidak ada data";
+  const displayNamaSekolah =
+    (typeof namasekolah === "string" && namasekolah.trim()) || "Tidak ada data";
 
   return (
     <section className="thankyou">
@@ -20,19 +25,19 @@ function ThankYouIndo() {
           <tbody>
             <tr>
               <td><strong>Anggota Tim</strong></td>
-              <td>{namaLengkap}</td>
+              <td>{displayNamaLengkap}</td>
             </tr>
             <tr>
               <td><strong>Nama Sekolah</strong></td>
-              <td>{namasekolah}</td>
+              <td>{displayNamaSekolah}</td>
             </tr>
             <tr>
               <td><strong>Judul Proyek</strong></td>
-              <td>{projectTitle}</td>
+              <td>{displayProjectTitle}</td>
             </tr>
             <tr>
               <td><strong>Kategori Kompetisi</strong></td>
-              <td>{category}</td>
+              <td>{displayCategory}</td>
             </tr>
           </tbody>
         </table>
@@ -41,9 +46,9 @@ function ThankYouIndo() {
           <strong>*Jika data muncul, tangkap layar halaman ini sebagai bukti pendaftaran berhasil</strong>
         </p>
         <Link href="/" legacyBehavior>
-        <a className="btn btn-action">
-          Kembali ke menu pendaftaran
-        </a>
+          <a className="btn btn-action">
+            Kembali ke menu pendaftaran
+          </a>
         </Link>
       </div>
     </section>
