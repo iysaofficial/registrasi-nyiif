@@ -163,7 +163,7 @@ function IndonesiaOffline() {
             <br />
             <br />
             <h4 className="text-xl">
-              HALLO PESERTA NYIIA 2025, Mohon perhatikan informasi berikut ini
+              HALLO PESERTA NYIIA 2026, Mohon perhatikan informasi berikut ini
               sebelum mengisi formulir pendaftaran :
             </h4>
             <br />
