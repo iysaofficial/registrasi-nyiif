@@ -52,6 +52,7 @@ export default function Home() {
             </div>
           </div>
           <div className="link-web mx-auto text-center">
+            {/*
             <a
               className="btn btn-action text-center me-lg-5 "
               onClick={() =>
@@ -59,10 +60,6 @@ export default function Home() {
                   "/registration/indo-online",
                   indonesiaOnlineTerms
                 )
-                // handleOpenModal(
-                //   "",
-                //   indonesiaOnlineTerms
-                // )
               }
             >
               Kompetisi Daring<i className="fa-solid fa-earth-americas"></i>
@@ -74,14 +71,17 @@ export default function Home() {
                   "/registration/indo-offline",
                   indonesiaOfflineTerms
                 )
-                // handleOpenModal(
-                //   "",
-                //   indonesiaOfflineTerms
-                // )
               }
             >
               Kompetisi Luring <i className="fa-solid fa-earth-americas"></i>
             </a>
+            */}
+            <button className="btn btn-action text-center me-lg-5" disabled style={{ cursor: 'not-allowed', opacity: 0.6 }}>
+              COMING SOON 2027
+            </button>
+            <button className="btn btn-action text-center me-lg-5" disabled style={{ cursor: 'not-allowed', opacity: 0.6 }}>
+              COMING SOON 2027
+            </button>
             <br />
             <br />
             <a href="https://nyiia.or.id/">
